@@ -12,14 +12,16 @@ class Contusuario extends CI_Controller {
 		$this->load->library('menu',array('Inicio','Contacto'));
 		$data['mi_menu'] = $this->menu->construirMenu();
 		$this->load->view('contusuario/headers');
-		$this->load->view('contusuario/usuario',$data);
+		$this->load->view('contusuario/formulario');
 	}
-
+/*
 	function nuevo()
 	{
 		$this->load->view('contusuario/headers');
 		$this->load->view('contusuario/formulario');	
 	}
+*/
+
 
 	function recibirdatos()
 	{
@@ -31,12 +33,25 @@ class Contusuario extends CI_Controller {
 					 'direccion' => $this->input->post('direccion'),
 					 'telefono' => $this->input->post('telefono'),
 					 'email' => $this->input->post('email'),
-					 'password' => $this->input->post('password'));
-
-		$this->contusuario_model->crearUsuario($data);
-		$this->load->view('contusuario/headers');
-		$this->load->view('contusuario/formulario');	
+					 'password' => $this->input->post('password'),
+					 'password2' => $this->input->post('password2'),
+					 );
+		
+		if  ($data['password'] != $data['password2'])
+		{
+			$Mensaje = "Las contraseñas no son iguales";
+			echo $Mensaje;
+		}
+		else
+		{
+			$this->contusuario_model->crearUsuario($data);		
+			echo 'Usuario registrado <br> <meta http-equiv="Refresh" content="2;URL=http://localhost/PetsQR/index.php/contusuario" />';
+		}
+		//$this->load->view('contusuario/headers');
+		//$this->load->view('contusuario/formulario');
+		
 	}
+	
 }
 
 ?>
